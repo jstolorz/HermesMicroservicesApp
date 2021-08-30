@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="HermesMicroservicesApp" />
+        <module name="HermesApiGateway" />
         <module name="HermesAppDiscoveryService" />
         <module name="HermesAppUsersService" />
         <module name="HermesAppAccountManagement" />
@@ -15,6 +16,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="HermesApiGateway" options="-parameters" />
       <module name="HermesAppAccountManagement" options="-parameters" />
       <module name="HermesAppDiscoveryService" options="-parameters" />
       <module name="HermesAppUsersService" options="-parameters" />
