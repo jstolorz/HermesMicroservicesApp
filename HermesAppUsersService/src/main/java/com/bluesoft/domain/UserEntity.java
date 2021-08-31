@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name = "users")
+public
 class UserEntity implements Serializable {
 
     @Getter(value = AccessLevel.NONE)
