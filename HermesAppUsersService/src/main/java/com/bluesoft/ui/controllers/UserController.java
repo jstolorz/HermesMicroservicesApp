@@ -3,9 +3,12 @@ package com.bluesoft.ui.controllers;
 import com.bluesoft.services.UsersService;
 import com.bluesoft.shared.UserDto;
 import com.bluesoft.ui.model.CreateUserRequestModel;
+import com.bluesoft.ui.model.CreateUserResponseModel;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,13 +32,15 @@ public  class UserController {
     }
 
     @PostMapping
-    public String createUser(@Valid @RequestBody CreateUserRequestModel userDetails){
+    public ResponseEntity<CreateUserResponseModel> createUser(@Valid @RequestBody CreateUserRequestModel userDetails){
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserDto userDto = modelMapper.map(userDetails, UserDto.class);
-        usersService.createUser(userDto);
+        final UserDto createdUser = usersService.createUser(userDto);
 
-        return "Create user method is called";
+        CreateUserResponseModel createUserResponseModel = modelMapper.map(createdUser, CreateUserResponseModel.class);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseModel);
     }
 
 }
