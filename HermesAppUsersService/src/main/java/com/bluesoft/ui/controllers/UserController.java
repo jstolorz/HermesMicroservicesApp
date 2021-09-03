@@ -4,6 +4,7 @@ import com.bluesoft.services.UsersService;
 import com.bluesoft.shared.UserDto;
 import com.bluesoft.ui.model.CreateUserRequestModel;
 import com.bluesoft.ui.model.CreateUserResponseModel;
+import com.bluesoft.ui.model.LoginRequestModel;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.env.Environment;

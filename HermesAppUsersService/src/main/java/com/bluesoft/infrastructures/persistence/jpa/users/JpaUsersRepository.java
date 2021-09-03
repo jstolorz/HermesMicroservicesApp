@@ -16,4 +16,9 @@ class JpaUsersRepository implements UsersRepository {
     public void save(final UserEntity userEntity) {
         springJpaUsersRepository.save(userEntity);
     }
+
+    @Override
+    public UserEntity findByEmail(final String email) {
+        return springJpaUsersRepository.findByEmail(email);
+    }
 }
