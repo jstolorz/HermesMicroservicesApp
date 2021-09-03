@@ -1,0 +1,6 @@
+##
+
+http://localhost:8082/users-ws/users/status/check
+Accept: application/json
+Content-Type: application/json
+
