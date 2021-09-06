@@ -1,7 +1,9 @@
 package com.bluesoft.hermesapigateway.filters;
 
+import io.jsonwebtoken.Jwts;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -12,6 +14,15 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
+
+    private final Environment environment;
+
+    public AuthorizationHeaderFilter(final Environment environment) {
+        super(Config.class);
+        this.environment = environment;
+    }
+
+    public static class Config{ }
 
     @Override
     public GatewayFilter apply(final Config config) {
@@ -26,6 +37,10 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
             final String jwt = authorizationHeader.replace("Bearer","");
 
+            if(!isJwtValid(jwt)){
+                return onError(exchange,"JWT token is not valid", HttpStatus.UNAUTHORIZED);
+            }
+
             return chain.filter(exchange);
         };
     }
@@ -36,5 +51,18 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         return response.setComplete();
     }
 
-    public static class Config{ }
+    private boolean isJwtValid(final String jwt){
+        boolean returnValue = true;
+
+        final String subject = Jwts.parser().setSigningKey(environment.getProperty("token.secret"))
+                .parseClaimsJws(jwt)
+                .getBody()
+                .getSubject();
+
+        if(subject == null || subject.isEmpty()){
+            returnValue = false;
+        }
+
+        return returnValue;
+    }
 }
