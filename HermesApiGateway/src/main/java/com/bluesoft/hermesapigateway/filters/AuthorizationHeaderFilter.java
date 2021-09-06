@@ -59,12 +59,17 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
         String signingKeyB64= Base64.getEncoder().encodeToString("signingKey".getBytes(StandardCharsets.UTF_8));
 
+        String subject = null;
 
-        String subject = Jwts.parser()
-                .setSigningKey(signingKeyB64)
-                .parseClaimsJws(jwt)
-                .getBody()
-                .getSubject();
+        try {
+            subject = Jwts.parser()
+                    .setSigningKey(signingKeyB64)
+                    .parseClaimsJws(jwt)
+                    .getBody()
+                    .getSubject();
+        }catch (Exception ex){
+            returnValue = false;
+        }
 
         if(subject == null || subject.isEmpty()){
             returnValue = false;
