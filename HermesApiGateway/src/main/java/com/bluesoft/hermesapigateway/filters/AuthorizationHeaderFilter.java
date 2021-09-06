@@ -12,7 +12,5 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         return null;
     }
 
-    public static class Config{
-
-    }
+    public static class Config{ }
 }
