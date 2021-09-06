@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 @Component
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
 
@@ -54,7 +57,11 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     private boolean isJwtValid(final String jwt){
         boolean returnValue = true;
 
-        final String subject = Jwts.parser().setSigningKey(environment.getProperty("token.secret"))
+        String signingKeyB64= Base64.getEncoder().encodeToString("signingKey".getBytes(StandardCharsets.UTF_8));
+
+
+        String subject = Jwts.parser()
+                .setSigningKey(signingKeyB64)
                 .parseClaimsJws(jwt)
                 .getBody()
                 .getSubject();

@@ -20,7 +20,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -63,12 +65,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication auth) throws IOException, ServletException {
         String userName = ((User) auth.getPrincipal()).getUsername();
         UserDto userDetails = usersService.getUserDetailsByEmail(userName);
+        String signingKeyB64= Base64.getEncoder().encodeToString("signingKey".getBytes(StandardCharsets.UTF_8));
 
         String token = Jwts.builder()
                 .setSubject(userDetails.getUserId())
-                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
-                .signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret") )
+                .setExpiration(new Date(System.currentTimeMillis()
+                        + Long.parseLong(environment.getProperty("token.expiration_time"))))
+                .signWith(SignatureAlgorithm.HS256, signingKeyB64)
                 .compact();
+
 
         res.addHeader("token", token);
         res.addHeader("userId", userDetails.getUserId());
