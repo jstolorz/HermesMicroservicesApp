@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/HermesAppAccountManagement/pom.xml" />
         <option value="$PROJECT_DIR$/HermesApiGateway/pom.xml" />
         <option value="$PROJECT_DIR$/HermesApiConfigServer/pom.xml" />
+        <option value="$PROJECT_DIR$/HermesApiAlbums/pom.xml" />
       </list>
     </option>
   </component>

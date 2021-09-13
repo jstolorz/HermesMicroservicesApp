@@ -7,10 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="HermesApiAlbums" />
+        <module name="HermesAppDiscoveryService" />
         <module name="HermesApiConfigServer" />
         <module name="HermesMicroservicesApp" />
         <module name="HermesApiGateway" />
-        <module name="HermesAppDiscoveryService" />
         <module name="HermesAppUsersService" />
         <module name="HermesAppAccountManagement" />
       </profile>
@@ -18,6 +19,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="HermesApiAlbums" options="-parameters" />
       <module name="HermesApiConfigServer" options="-parameters" />
       <module name="HermesApiGateway" options="-parameters" />
       <module name="HermesAppAccountManagement" options="-parameters" />
