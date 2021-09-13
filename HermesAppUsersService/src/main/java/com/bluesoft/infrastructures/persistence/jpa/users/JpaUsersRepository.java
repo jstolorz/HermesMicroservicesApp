@@ -21,4 +21,9 @@ class JpaUsersRepository implements UsersRepository {
     public UserEntity findByEmail(final String email) {
         return springJpaUsersRepository.findByEmail(email);
     }
+
+    @Override
+    public UserEntity findByUserId(final String userId) {
+        return springJpaUsersRepository.findByUserId(userId);
+    }
 }

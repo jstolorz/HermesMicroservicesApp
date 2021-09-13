@@ -1,8 +1,10 @@
 package com.bluesoft.shared;
 
+import com.bluesoft.ui.model.AlbumResponseModel;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class UserDto implements Serializable {
@@ -15,5 +17,6 @@ public class UserDto implements Serializable {
     private String password;
     private String encryptedPassword;
     private String email;
+    private List<AlbumResponseModel> albums;
 
 }

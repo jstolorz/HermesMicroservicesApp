@@ -5,6 +5,7 @@ import com.bluesoft.shared.UserDto;
 import com.bluesoft.ui.model.CreateUserRequestModel;
 import com.bluesoft.ui.model.CreateUserResponseModel;
 import com.bluesoft.ui.model.LoginRequestModel;
+import com.bluesoft.ui.model.UserResponseModel;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.env.Environment;
@@ -46,6 +47,15 @@ public  class UserController {
         CreateUserResponseModel createUserResponseModel = modelMapper.map(createdUser, CreateUserResponseModel.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseModel);
+    }
+
+    @GetMapping(value = "/{userId}" , produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    public ResponseEntity<UserResponseModel> getUser(@PathVariable("userId") String userId){
+
+        UserDto userDto = usersService.getUserByUserId(userId);
+        UserResponseModel returnValue = new ModelMapper().map(userDto,UserResponseModel.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
 
 }
